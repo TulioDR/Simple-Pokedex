@@ -5,11 +5,8 @@ const getPokemonData = async (url) => {
 };
 export const getPokemons = async (array, count) => {
    const pokemonsArray = array.slice(count, count + 20);
-   for (const pokemon of pokemonsArray) {
-      pokemon.data = await getPokemonData(pokemon.url);
-      pokemon.image = pokemon.data.sprites.front_default;
-   }
-   return pokemonsArray;
+   const pokemonRequestPromises = pokemonsArray.map(pokeon => getPokemonData(pokemon.url))
+   return Promise.all(pokemonRequestPromises)
 };
 
 export const orderPokemonsAZ = (array) => {
