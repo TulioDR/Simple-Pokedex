@@ -29,8 +29,7 @@ export default function usePokemons() {
       const getAllPokemons = async () => {
          const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=898");
          const data = await res.json();
-         const allPokemons = data.results;
-         setAllPokemons(allPokemons);
+         setAllPokemons(data.results);
       };
       getAllPokemons();
    }, []);

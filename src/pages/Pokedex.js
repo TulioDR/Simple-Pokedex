@@ -50,7 +50,7 @@ export default function Pokedex() {
                   {displayedPokemons.length ? (
                      <Cards>
                         {displayedPokemons.map((pokemon) => (
-                           <Card key={pokemon.data.id} pokemon={pokemon} />
+                           <Card key={pokemon.id} pokemon={pokemon} />
                         ))}
                      </Cards>
                   ) : (

@@ -1,15 +1,13 @@
 const getPokemonData = async (url) => {
    const res = await fetch(url);
-   const data = await res.json();
-   return data;
+   return await res.json();
 };
 export const getPokemons = async (array, count) => {
    const pokemonsArray = array.slice(count, count + 20);
-   for (const pokemon of pokemonsArray) {
-      pokemon.data = await getPokemonData(pokemon.url);
-      pokemon.image = pokemon.data.sprites.front_default;
-   }
-   return pokemonsArray;
+   const pokemonRequestPromises = pokemonsArray.map((pokemon) =>
+      getPokemonData(pokemon.url)
+   );
+   return Promise.all(pokemonRequestPromises);
 };
 
 export const orderPokemonsAZ = (array) => {
