@@ -17,11 +17,11 @@ export default function App() {
       <Router>
          <Switch>
             <Route exact path="/">
-               <Redirect to="/pokedex/allpokemons" />
+               <Redirect to="/pokedex/all-pokemons" />
             </Route>
 
             <Route exact path="/pokedex">
-               <Redirect to="/pokedex/allpokemons" />
+               <Redirect to="/pokedex/all-pokemons" />
             </Route>
 
             <Route exact path="/pokedex/:searchQuery">
