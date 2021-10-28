@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { getData } from "../../utils/getPokemons";
+
 import EvolutionCard from "./EvolutionCard";
 const myStyle = {
    width: 0,
@@ -12,11 +14,6 @@ export default function Evolution({ evolution }) {
    const [evolutionChain, setEvolutionChain] = useState([]);
 
    const getID = (str) => str.substring(42).slice(0, -1);
-   const getData = async (url) => {
-      const res = await fetch(url);
-      const data = await res.json();
-      return data;
-   };
 
    useEffect(() => {
       const getEvolutionChain = async (data) => {

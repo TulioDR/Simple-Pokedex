@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import Option from "./Select/Option";
+import { useEffect, useRef, useState } from "react";
+import Option from "./Option";
 
 const options = [
    { text: "Sort results by...", type: "" },
@@ -9,12 +9,12 @@ const options = [
    { text: "Z-A", type: "Z-A" },
 ];
 
-export default function Select({
-   dispatch,
-   ordered,
-   selectedOption,
-   setSelectedOption,
-}) {
+export default function Select({ selected }) {
+   const [selectedOption, setSelectedOption] = useState();
+   useEffect(() => {
+      setSelectedOption(selected);
+   }, [selected]);
+
    const [open, setOpen] = useState(false);
    const toggle = () => setOpen(!open);
    const optionsDiv = useRef(null);
@@ -52,8 +52,6 @@ export default function Select({
                      key={index}
                      text={option.text}
                      type={option.type}
-                     dispatch={dispatch}
-                     ordered={ordered}
                      {...{ setSelectedOption, selectedOption, setOpen }}
                   />
                ))}

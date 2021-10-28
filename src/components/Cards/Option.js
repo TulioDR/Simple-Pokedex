@@ -1,16 +1,21 @@
+import { useHistory, useLocation } from "react-router";
+
 export default function Option({
    text,
    type,
-   dispatch,
-   ordered,
    selectedOption,
    setSelectedOption,
    setOpen,
 }) {
+   const history = useHistory();
+   const location = useLocation();
+
    const change = () => {
-      dispatch({ type: type, data: ordered });
       setSelectedOption(text);
       setOpen(false);
+      const query = new URLSearchParams(location.search);
+      query.set("order", type);
+      history.push({ search: query.toString() });
    };
    return (
       <li

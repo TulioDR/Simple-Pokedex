@@ -3,13 +3,14 @@ import "./App.scss";
 
 // Pages
 import Pokedex from "./pages/Pokedex";
-import Pokemon from "./pages/Pokemon";
+
 import {
    BrowserRouter as Router,
    Switch,
    Route,
    Redirect,
 } from "react-router-dom";
+import Details from "./pages/Details";
 
 export default function App() {
    return (
@@ -18,6 +19,7 @@ export default function App() {
             <Route exact path="/">
                <Redirect to="/pokedex/allpokemons" />
             </Route>
+
             <Route exact path="/pokedex">
                <Redirect to="/pokedex/allpokemons" />
             </Route>
@@ -27,7 +29,7 @@ export default function App() {
             </Route>
 
             <Route exact path="/pokemon/:pokemonName">
-               <Pokemon />
+               <Details />
             </Route>
          </Switch>
       </Router>

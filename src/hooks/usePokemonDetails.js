@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { getData } from "../utils/getPokemons";
 
-export default function usePokemonInfo() {
+const initialState = {
+   mainData: null,
+   species: null,
+   evolution: null,
+};
+
+export default function usePokemonDetails() {
    const { pokemonName } = useParams();
    const [isLoading, setIsLoading] = useState(true);
-   const [pokemonDetails, setPokemonDetails] = useState({});
-
-   const getData = async (url) => {
-      const res = await fetch(url);
-      const data = await res.json();
-      return data;
-   };
+   const [pokemon, setPokemon] = useState(initialState);
 
    useEffect(() => {
       const getPokemonData = async () => {
@@ -20,11 +21,14 @@ export default function usePokemonInfo() {
          const evolution = await getData(species.evolution_chain.url);
 
          document.title = `${mainData.name} | Pokedex`;
-         setPokemonDetails({ mainData, species, evolution });
+         setPokemon({ mainData, species, evolution });
          setIsLoading(false);
       };
       getPokemonData();
+      return () => {
+         setPokemon(initialState);
+      };
    }, [pokemonName]);
 
-   return [pokemonDetails, isLoading];
+   return [pokemon, isLoading];
 }

@@ -1,7 +1,10 @@
-export default function Shuffle({ randomize, setSelectedOption }) {
+import { useHistory } from "react-router";
+
+export default function Shuffle({ randomize }) {
+   const history = useHistory();
    const dispatch = () => {
+      history.push("/pokedex/random-pokemons");
       randomize();
-      setSelectedOption("Sort results by...");
    };
    return (
       <div

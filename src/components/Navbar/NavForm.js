@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { filterPokemons } from "../utils/getPokemons";
+import { filterPokemons } from "../../utils/getPokemons";
 
-export default function NavForm({ allPokemons, setSelectedOption }) {
+export default function NavForm({ allPokemons }) {
    const [open, setOpen] = useState(false);
    const [inputValue, setInputValue] = useState("");
    const [foundedPokemons, setFoundedPokemons] = useState([]);
@@ -22,13 +22,14 @@ export default function NavForm({ allPokemons, setSelectedOption }) {
    const fillInput = (e) => {
       const value = e.target.innerText;
       setInputValue(value);
+      const founded = filterPokemons(allPokemons, value);
+      setFoundedPokemons(founded);
       history.push(`/pokedex/${value}`);
       setOpen(false);
    };
    const handleSubmit = (e) => {
       e.preventDefault();
       history.push(`/pokedex/${inputValue}`);
-      setSelectedOption("First to Last");
       setOpen(false);
    };
 

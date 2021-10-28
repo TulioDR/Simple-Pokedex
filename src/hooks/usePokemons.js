@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useReducer } from "react";
 import { getPokemons } from "../utils/getPokemons";
 import selectReducer from "../reducers/selectReducer";
@@ -8,11 +8,12 @@ const initialState = {
    count: 0,
    ordered: [],
    sourceArray: [],
+   selected: "First to Last",
 };
 
 export default function usePokemons() {
    const [state, dispatch] = useReducer(selectReducer, initialState);
-   const { count, ordered, sourceArray } = state;
+   const { count, ordered, sourceArray, selected } = state;
    const { searchQuery } = useParams();
 
    const [allPokemons, setAllPokemons] = useState([]);
@@ -20,6 +21,8 @@ export default function usePokemons() {
    const [isLoading, setIsLoading] = useState(false);
    const [isLoadingMore, setIsLoadingMore] = useState(false);
    const [showBtn, setShowBtn] = useState(true);
+
+   const { search } = useLocation();
 
    const randomize = () => dispatch({ type: "RANDOM", allPokemons });
    const loadMore = () => dispatch({ type: "LOAD_MORE", data: count });
@@ -35,7 +38,16 @@ export default function usePokemons() {
    }, []);
 
    useEffect(() => {
-      if (searchQuery === "allpokemons") dispatch({ type: "ALL", allPokemons });
+      const query = new URLSearchParams(search);
+      const order = query.get("order") || null;
+      dispatch({ type: order, data: ordered });
+   }, [search, ordered]);
+
+   useEffect(() => {
+      if (searchQuery === "all-pokemons")
+         dispatch({ type: "ALL", allPokemons });
+      else if (searchQuery === "random-pokemons")
+         dispatch({ type: "RANDOM", allPokemons });
       else dispatch({ type: "SEARCH", data: { allPokemons, searchQuery } });
    }, [searchQuery, allPokemons]);
 
@@ -62,11 +74,10 @@ export default function usePokemons() {
    return [
       allPokemons,
       displayedPokemons,
+      selected,
       showBtn,
       isLoading,
       isLoadingMore,
-      dispatch,
-      ordered,
       randomize,
       loadMore,
    ];
